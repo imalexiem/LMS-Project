@@ -59,10 +59,10 @@ function CoursesLayout() {
   };
 
   return (
-    <div
-      className="flex overflow-hidden"
-      style={{ height: "calc(100vh - 68px)" }}
-    >
+    // --- THIS IS THE CORRECTED LINE ---
+    // The fixed height style is removed, and "h-full" is added.
+    // "overflow-hidden" is no longer needed here.
+    <div className="flex h-full">
       <aside
         className={`w-72 bg-blue-950 text-white p-5 flex-shrink-0 transition-transform duration-500 ease-out ${
           isMounted ? "translate-x-0" : "-translate-x-full"

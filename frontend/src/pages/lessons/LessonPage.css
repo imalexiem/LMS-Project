@@ -1,25 +1,14 @@
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f9f9f9;
-  margin: 0;
-  padding: 0;
-  color: #333;
-}
-
-
 .lesson-header {
   background-color: #0e1f56;
   padding: 20px;
   color: white;
 }
 
-
 .lesson-header h1 {
   margin: 0;
   font-size: 1.8rem;
   color: white;
 }
-
 
 .lesson-header nav a {
   color: #fff;
@@ -28,7 +17,6 @@ body {
   margin-top: 5px;
   display: inline-block;
 }
-
 
 .lesson-container {
   max-width: 900px;
@@ -39,17 +27,14 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-
 .lesson-container h2 {
   color: #0e1f56;
   font-weight: bold;
 }
 
-
 .lesson-container p {
   line-height: 1.6;
 }
-
 
 .back-link {
   margin-top: 30px;
@@ -59,11 +44,9 @@ body {
   font-weight: bold;
 }
 
-
 .back-link:hover {
   text-decoration: underline;
 }
-
 
 .video-container {
   position: relative;
@@ -71,10 +54,9 @@ body {
   height: 0;
   overflow: hidden;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   margin: 20px 0;
 }
-
 
 .video-container iframe {
   position: absolute;
@@ -84,4 +66,3 @@ body {
   height: 100%;
   border: 0;
 }
-

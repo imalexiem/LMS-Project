@@ -1,23 +1,15 @@
-import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import Navbar from './Navbar';
-import { useAuth } from '../context/AuthContext'; // Import the hook
+import React from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function ProtectedRoute() {
-  const { user, logout } = useAuth(); // Get user and logout function from context
+  const { user } = useAuth();
 
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar onLogout={logout} />
-      <main>
-        <Outlet />
-      </main>
-    </div>
-  );
+  return <Outlet />;
 }
 
 export default ProtectedRoute;

@@ -1,16 +1,9 @@
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f7f7f7;
-}
-
-
 .card-container {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   max-width: 1000px;
 }
-
 
 .card-link {
   text-decoration: none;
@@ -19,7 +12,6 @@ body {
   max-width: 32%;
   display: flex;
 }
-
 
 .card {
   background-color: #fff;
@@ -33,12 +25,10 @@ body {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-
 .card:hover {
   transform: translateY(-4px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
-
 
 .code {
   color: #666;
@@ -46,7 +36,6 @@ body {
   letter-spacing: 1px;
   margin-bottom: 10px;
 }
-
 
 .title {
   color: #0b1a3c;
@@ -56,41 +45,25 @@ body {
   line-height: 1.3;
 }
 
-
 .placeholder {
   background-color: #e3e3e3;
   height: 50px;
   border-radius: 4px;
 }
 
-
-h1 {
-  font-size: 2rem;
-  color: #0e1f56;
-}
-
-
-
-
 .module {
   background-color: #6a0d0d;
   color: #fff;
   margin-bottom: 10px;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
-
-
-
 .module:hover {
   background-color: #530a0a;
 }
-
-
-
 
 .module-header {
   padding: 15px 20px;
@@ -100,25 +73,16 @@ h1 {
   align-items: center;
 }
 
-
-
-
 .module-header::after {
-  content: '▼';
+  content: "▼";
   font-size: 0.9em;
   transition: transform 0.3s;
   margin-left: auto;
 }
 
-
-
-
 .module.active .module-header::after {
   transform: rotate(180deg);
 }
-
-
-
 
 .lessons {
   display: none;
@@ -127,23 +91,14 @@ h1 {
   border-top: 1px solid #ccc;
 }
 
-
-
-
 .module.active .lessons {
   display: block;
 }
-
-
-
 
 .lesson {
   padding: 12px 20px;
   border-bottom: 1px solid #eee;
 }
-
-
-
 
 .lesson a {
   text-decoration: none;
@@ -151,18 +106,12 @@ h1 {
   display: block;
 }
 
-
-
-
 .lesson a:hover {
   color: #6a0d0d;
 }
 
-
-
-
 .expand-collapse-btn {
-  background-color: #051C43;
+  background-color: #051c43;
   color: white;
   padding: 6px 16px;
   border: none;
@@ -174,12 +123,6 @@ h1 {
   cursor: pointer;
 }
 
-
 .expand-collapse-btn:hover {
-  background-color: #051C43;
+  background-color: #051c43;
 }
-
-
-
-
-
