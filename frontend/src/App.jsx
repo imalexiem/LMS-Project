@@ -14,6 +14,14 @@ import Modules from "./pages/Modules";
 import FundamentalsOfCyber from "./pages/FundamentalsOfCyber";
 import FOCModule1Lesson1 from "./pages/lessons/FOCModule1Lesson1";
 import FOCModule1Lesson2 from "./pages/lessons/FOCModule1Lesson2";
+import FOCModule2Lesson1 from "./pages/lessons/FOCModule2Lesson1";
+import FOCModule2Lesson2 from "./pages/lessons/FOCModule2Lesson2";
+import FOCModule2Lesson3 from "./pages/lessons/FOCModule2Lesson3";
+import FOCModule3Lesson1 from "./pages/lessons/FOCModule3Lesson1";
+import FOCModule3Lesson2 from "./pages/lessons/FOCModule3Lesson2";
+import FOCModule4Lesson1 from "./pages/lessons/FOCModule4Lesson1";
+
+
 import ProgramIntroduction from "./pages/ProgramIntroduction";
 import ProgramOutline from "./pages/ProgramOutline";
 import Assignments from "./pages/Assignments";
@@ -76,6 +84,12 @@ function App() {
             <Route path=":courseId/modules/fundamentals" element={<FundamentalsOfCyber />} />
             <Route path=":courseId/modules/fundamentals/lesson1" element={<FOCModule1Lesson1 />} />
             <Route path=":courseId/modules/fundamentals/lesson2" element={<FOCModule1Lesson2 />} />
+            <Route path=":courseId/modules/ipdnsports/lesson1" element={<FOCModule2Lesson1 />} />
+            <Route path=":courseId/modules/ipdnsports/lesson2" element={<FOCModule2Lesson2 />} />
+            <Route path=":courseId/modules/ipdnsports/lesson3" element={<FOCModule2Lesson3 />} />
+            <Route path=":courseId/modules/networksecurity/lesson1" element={<FOCModule3Lesson1 />} />
+            <Route path=":courseId/modules/networksecurity/lesson2" element={<FOCModule3Lesson2 />} />
+            <Route path=":courseId/modules/bestpractices/lesson1" element={<FOCModule4Lesson1 />} />
           </Route>
         </Route>
       </Route>
