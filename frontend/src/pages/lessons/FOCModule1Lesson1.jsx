@@ -1,10 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import './LessonPage.css'; 
 
 
 const FOCModule1Lesson1 = () => {
+  // --- 2. Get the courseId from the URL ---
+  const { courseId } = useParams();
+
   return (
     <div>
       <header className="lesson-header">
@@ -47,7 +50,7 @@ const FOCModule1Lesson1 = () => {
         </p>
 
 
-        <Link to="/courses/modules/fundamentals" className="back-link">
+        <Link to={`/courses/${courseId}/modules/fundamentals`} className="back-link">
           Back to Modules
         </Link>
       </div>

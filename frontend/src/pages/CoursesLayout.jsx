@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useParams } from "react-router-dom"; // <-- Import useParams
+import { useCourseContext } from "../context/CourseContext";
 import {
   Book,
   ChevronsRight,
@@ -8,60 +9,50 @@ import {
   Target,
 } from "lucide-react";
 
-const sidebarNavItems = [
-  { to: "/courses/my-library", icon: <Book size={20} />, label: "My Library" },
-  {
-    to: "/courses/assignments",
-    icon: <FileText size={20} />,
-    label: "Assignments",
-  },
-  {
-    to: "/courses/modules",
-    icon: <LayoutDashboard size={20} />,
-    label: "Modules",
-  },
-  {
-    to: "/courses/introduction",
-    icon: <ChevronsRight size={20} />,
-    label: "Program Introduction",
-  },
-  {
-    to: "/courses/outline",
-    icon: <Target size={20} />,
-    label: "Program Outline",
-  },
-  {
-    to: "/courses/requirements",
-    icon: <FileText size={20} />,
-    label: "Completion Requirements",
-  },
-];
-
 function CoursesLayout() {
-  const [isMounted, setIsMounted] = useState(false);
+  const { selectedCourseId, setSelectedCourseId } = useCourseContext();
+  const params = useParams(); // Hook to get URL params like :courseId
 
+  // --- THIS IS THE KEY CHANGE ---
+  // The old effect that hid the menu is gone. This new, simpler effect ensures
+  // that if you land directly on a course page (e.g., from a bookmark or refresh),
+  // the context is updated and the menu appears correctly.
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsMounted(true);
-    }, 10);
+    if (params.courseId) {
+      setSelectedCourseId(params.courseId);
+    }
+  }, [params.courseId, setSelectedCourseId]);
+  
+  // --- The rest of the component remains the same ---
+  // Dynamically build the navigation array
+  const baseNavItems = [
+    { to: "/courses/my-library", icon: <Book size={20} />, label: "My Library" },
+    { to: "/courses/assignments", icon: <FileText size={20} />, label: "Assignments" },
+  ];
+  
+  const courseSpecificNavItems = selectedCourseId ? [
+    { to: `/courses/${selectedCourseId}/modules`, icon: <LayoutDashboard size={20} />, label: "Modules" },
+    { to: `/courses/${selectedCourseId}/introduction`, icon: <ChevronsRight size={20} />, label: "Program Introduction" },
+    { to: `/courses/${selectedCourseId}/outline`, icon: <Target size={20} />, label: "Program Outline" },
+    { to: `/courses/${selectedCourseId}/requirements`, icon: <FileText size={20} />, label: "Completion Requirements" },
+  ] : [];
+
+  const sidebarNavItems = [...baseNavItems, ...courseSpecificNavItems];
+
+  // Your existing state and functions for the slide-in animation
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setIsMounted(true), 10);
     return () => clearTimeout(timer);
   }, []);
 
   const getNavLinkClasses = ({ isActive }) => {
-    const baseClasses =
-      "flex items-center space-x-4 px-4 py-3 rounded-xl transition-colors duration-200";
-
-    if (isActive) {
-      return `${baseClasses} bg-white text-blue-950 font-semibold`;
-    } else {
-      return `${baseClasses} text-white font-medium hover:bg-blue-900`;
-    }
+    const baseClasses = "flex items-center space-x-4 px-4 py-3 rounded-xl transition-colors duration-200";
+    return isActive ? `${baseClasses} bg-white text-blue-950 font-semibold` : `${baseClasses} text-white font-medium hover:bg-blue-900`;
   };
 
+  // The JSX is unchanged
   return (
-    // --- THIS IS THE CORRECTED LINE ---
-    // The fixed height style is removed, and "h-full" is added.
-    // "overflow-hidden" is no longer needed here.
     <div className="flex h-full">
       <aside
         className={`w-72 bg-blue-950 text-white p-5 flex-shrink-0 transition-transform duration-500 ease-out ${

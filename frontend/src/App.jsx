@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
+import { CourseProvider } from "./context/CourseContext"; // <-- 1. Import the provider
 
 // --- Import Layout and Page Components ---
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -28,7 +29,6 @@ const ProtectedPagesLayout = ({ onLogout }) => {
   return (
     <div className="h-screen bg-gray-50 flex flex-col">
       <Navbar onLogout={onLogout} />
-
       <div className="flex-1 overflow-y-auto">
         <Outlet />
       </div>
@@ -44,31 +44,38 @@ function App() {
       {/* Public route for login */}
       <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
 
+      {/* Main protected application routes */}
       <Route path="/" element={<ProtectedRoute />}>
         <Route element={<ProtectedPagesLayout onLogout={logout} />}>
           <Route index element={<Dashboard />} />
           <Route path="dashboard" element={<Navigate to="/" />} />
 
-          <Route path="courses" element={<CoursesLayout />}>
+          {/* --- 2. Wrap the CoursesLayout Route in the CourseProvider --- */}
+          {/* This makes the selected course state available to the layout and all its children */}
+          <Route
+            path="courses"
+            element={
+              <CourseProvider>
+                <CoursesLayout />
+              </CourseProvider>
+            }
+          >
+            {/* These "base" routes are always available */}
             <Route index element={<Navigate to="my-library" replace />} />
             <Route path="my-library" element={<MyLibrary />} />
-            <Route path="introduction" element={<ProgramIntroduction />} />
-            <Route path="outline" element={<ProgramOutline />} />
             <Route path="assignments" element={<Assignments />} />
-            <Route path="modules" element={<Modules />} />
-            <Route path="requirements" element={<CompletionRequirements />} />
-            <Route
-              path="modules/fundamentals"
-              element={<FundamentalsOfCyber />}
-            />
-            <Route
-              path="modules/fundamentals/lesson1"
-              element={<FOCModule1Lesson1 />}
-            />
-            <Route
-              path="modules/fundamentals/lesson2"
-              element={<FOCModule1Lesson2 />}
-            />
+            
+            {/* --- 3. Make course-specific routes dynamic using :courseId --- */}
+            {/* This allows URLs like /courses/some-course-id/introduction */}
+            <Route path=":courseId/introduction" element={<ProgramIntroduction />} />
+            <Route path=":courseId/outline" element={<ProgramOutline />} />
+            <Route path=":courseId/modules" element={<Modules />} />
+            <Route path=":courseId/requirements" element={<CompletionRequirements />} />
+            
+            {/* These highly specific routes should also be dynamic */}
+            <Route path=":courseId/modules/fundamentals" element={<FundamentalsOfCyber />} />
+            <Route path=":courseId/modules/fundamentals/lesson1" element={<FOCModule1Lesson1 />} />
+            <Route path=":courseId/modules/fundamentals/lesson2" element={<FOCModule1Lesson2 />} />
           </Route>
         </Route>
       </Route>
