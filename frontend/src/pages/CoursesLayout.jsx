@@ -11,11 +11,6 @@ import {
 const sidebarNavItems = [
   { to: "/courses/my-library", icon: <Book size={20} />, label: "My Library" },
   {
-    to: "/courses/introduction",
-    icon: <ChevronsRight size={20} />,
-    label: "Program Introduction",
-  },
-  {
     to: "/courses/assignments",
     icon: <FileText size={20} />,
     label: "Assignments",
@@ -24,6 +19,11 @@ const sidebarNavItems = [
     to: "/courses/modules",
     icon: <LayoutDashboard size={20} />,
     label: "Modules",
+  },
+  {
+    to: "/courses/introduction",
+    icon: <ChevronsRight size={20} />,
+    label: "Program Introduction",
   },
   {
     to: "/courses/outline",
