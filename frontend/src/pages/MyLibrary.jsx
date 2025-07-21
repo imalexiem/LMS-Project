@@ -1,22 +1,30 @@
-import React from "react";
+import React from 'react';
+import { useCourses } from '../hooks/useCourses'; // Import the hook
+import LibraryCourseItem from '../components/LibraryCourseItem'; // Import the new component
 
 function MyLibrary() {
+  // Use the hook to get all the data and state you need in one line
+  const { courses, loading, error } = useCourses();
+
+  if (loading) {
+    return <div className="p-8 text-center">Loading your library...</div>;
+  }
+
+  if (error) {
+    return <div className="p-8 text-center text-red-500">Could not load courses.</div>;
+  }
+
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">CODE OIO</h1>
-      <h2 className="text-4xl font-bold mb-6">Fundamentals of Cybersecurity</h2>
-      <div className="flex space-x-2">
-        <button className="bg-yellow-400 text-black px-4 py-1 rounded-full text-sm font-semibold">
-          Program Introduction
-        </button>
-        <button className="bg-gray-200 text-gray-700 px-4 py-1 rounded-full text-sm font-semibold">
-          Programme Outline
-        </button>
-        <button className="bg-gray-200 text-gray-700 px-4 py-1 rounded-full text-sm font-semibold">
-          + Completion Requirements
-        </button>
+    <div className="p-8">
+      <div className="space-y-4">
+        {courses.length > 0 ? (
+          courses.map(course => (
+            <LibraryCourseItem key={course._id} course={course} />
+          ))
+        ) : (
+          <p>You are not enrolled in any courses yet.</p>
+        )}
       </div>
-      {/* Content for the cybersecurity course will go here */}
     </div>
   );
 }

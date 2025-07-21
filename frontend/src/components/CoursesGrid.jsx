@@ -1,64 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useAuth } from '../context/AuthContext'; // <-- Step 1: Import the useAuth hook
+import React, { useState } from 'react';
+import { useCourses } from '../hooks/useCourses'; // <-- Step 1: Import the new hook
 
-// Import your view components
+// Import your view components (no change here)
 import CourseCard from './CourseCard';
 import CourseListItem from './CourseListItem';
 import { Grid, List } from 'lucide-react';
 
 function CoursesGrid() {
-  // --- Step 2: Get the token from the AuthContext ---
-  const { token } = useAuth();
-
-  const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // --- Step 2: Replace all fetching logic with the hook ---
+  // This one line replaces useState for courses/loading and the entire useEffect block.
+  const { courses, loading, error } = useCourses();
+  
+  // This state is specific to the UI of this component, so it stays here.
   const [view, setView] = useState('grid');
 
-  // --- Step 3: Update the useEffect hook ---
-  useEffect(() => {
-    // Only try to fetch courses if a token exists
-    if (token) {
-      const fetchCourses = async () => {
-        try {
-          // Create the configuration object with the Authorization header
-          const config = {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          };
-
-          // Pass the config object with the token to your axios request
-          const response = await axios.get('/api/courses', config);
-
-          if (Array.isArray(response.data)) {
-            setCourses(response.data);
-          } else {
-            console.error("Data received from API is not an array:", response.data);
-            setCourses([]);
-          }
-        } catch (error) {
-          console.error("Error fetching courses:", error);
-          // This error is likely a 401 Unauthorized if the token is invalid
-          setCourses([]);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchCourses();
-    } else {
-      // If there's no token, don't bother trying to fetch.
-      setLoading(false);
-      setCourses([]);
-    }
-  }, [token]); // --- Step 4: Add token as a dependency ---
-             // This ensures the effect re-runs if the user logs in or out.
-
+  // --- Step 3: Add robust loading and error states ---
   if (loading) {
     return <div className="text-center p-8">Loading courses...</div>;
   }
+  
+  if (error) {
+    return <div className="p-8 text-center text-red-500">Could not load courses.</div>;
+  }
 
+  // --- Step 4: The JSX for rendering remains the same ---
+  // It now gets its data from the `courses` variable provided by the hook.
   return (
     <main className="p-4 sm:p-6 lg:p-8">
       {/* View Toggle Buttons */}
