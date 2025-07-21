@@ -15,13 +15,9 @@ import FOCModule1Lesson1 from "./pages/lessons/FOCModule1Lesson1";
 import FOCModule1Lesson2 from "./pages/lessons/FOCModule1Lesson2";
 import ProgramIntroduction from "./pages/ProgramIntroduction";
 import ProgramOutline from "./pages/ProgramOutline";
+import Assignments from "./pages/Assignments";
 
 // --- Placeholder Page Components ---
-const Assignments = () => (
-  <div className="p-4">
-    <h1 className="text-2xl font-bold">Assignments</h1>
-  </div>
-);
 const CompletionRequirements = () => (
   <div className="p-4">
     <h1 className="text-2xl font-bold">Completion Requirements</h1>
