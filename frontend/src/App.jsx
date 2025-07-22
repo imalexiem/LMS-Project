@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
-import { CourseProvider } from "./context/CourseContext"; // <-- 1. Import the provider
+import { CourseProvider } from "./context/CourseContext";
 
 // --- Import Layout and Page Components ---
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -21,17 +21,10 @@ import FOCModule3Lesson1 from "./pages/lessons/FOCModule3Lesson1";
 import FOCModule3Lesson2 from "./pages/lessons/FOCModule3Lesson2";
 import FOCModule4Lesson1 from "./pages/lessons/FOCModule4Lesson1";
 
-
 import ProgramIntroduction from "./pages/ProgramIntroduction";
 import ProgramOutline from "./pages/ProgramOutline";
 import Assignments from "./pages/Assignments";
-
-// --- Placeholder Page Components ---
-const CompletionRequirements = () => (
-  <div className="p-4">
-    <h1 className="text-2xl font-bold">Completion Requirements</h1>
-  </div>
-);
+import CompletionRequirements from "./pages/CompletionRequirements"; // Add this import
 
 const ProtectedPagesLayout = ({ onLogout }) => {
   return (
