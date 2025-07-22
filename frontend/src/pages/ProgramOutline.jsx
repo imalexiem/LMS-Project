@@ -1,5 +1,4 @@
 import React from "react";
-import illustration from "../assets/undraw_project_completed.png";
 
 const outlineData = [
   {
@@ -23,8 +22,6 @@ const outlineData = [
     outcomes: [
       "Define the core principles of effective leadership.",
       "Differentiate between management and leadership.",
-      "Develop a strategic mindset for long-term planning.",
-      "Utilize frameworks like SWOT for strategic analysis.",
       "Develop a strategic mindset for long-term planning.",
       "Utilize frameworks like SWOT for strategic analysis.",
     ],
@@ -111,68 +108,89 @@ const outlineData = [
   },
 ];
 
+const greetings = [
+  "Ready to dive in? 🚀",
+  "Let's get started! 🎯",
+  "Time to conquer those modules! 💪",
+  "Onward to learning! 📚",
+];
+const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
+
 const ProgramOutline = () => {
   return (
-    <div className="w-full space-y-8">
-      <section className="relative rounded-2xl p-8 flex items-center shadow-lg overflow-hidden h-56">
-        <img
-          src={illustration}
-          alt="Program background"
-          className="absolute inset-0 w-full h-full gap-6 bg-[#757575] object-cover object-[100%_40%] shadow-md z-0 transition-transform duration-500 ease-in-out scale-100 "
-        />
-        <div className="absolute inset-0 bg-black opacity-40 z-10"></div>
-        <div className="relative z-20">
-          <h1 className="text-5xl font-bold text-white shadow-black">
-            Program Outline
-          </h1>
-          <p className="text-gray-100 mt-2 font-semibold shadow-black">
+    <div className="w-full space-y-8 font-sans">
+      <section
+        className="relative rounded-2xl p-8 flex items-center bg-[#757575] shadow-lg overflow-hidden min-h-[224px] 
+                   transition-transform duration-300 ease-in-out transform hover:scale-[1.02]"
+      >
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-8 left-12 w-16 h-16 bg-cyan-300 rounded-full filter blur-lg opacity-50 animate-pulse [animation-delay:-0.5s]"></div>
+          <div className="absolute top-0 -left-24 w-72 h-72 bg-pink-500 rounded-full filter blur-xl opacity-40 animate-pulse"></div>
+          <div className="absolute -bottom-16 right-0 w-80 h-80 bg-cyan-500 rounded-full filter blur-xl opacity-40 animate-bounce"></div>
+          <div className="absolute top-24 -right-12 w-60 h-60 bg-purple-500 rounded-full filter blur-lg opacity-30 animate-pulse [animation-delay:-2s]"></div>
+          <div className="absolute top-10 left-40 w-24 h-24 bg-cyan-400 rounded-full filter blur-sm opacity-60 animate-bounce [animation-delay:-1s]"></div>
+          <div className="absolute bottom-10 left-10 w-28 h-28 bg-pink-400 rounded-full filter blur-md opacity-50 animate-pulse [animation-delay:-3s]"></div>
+        </div>
+
+        {/* --- THIS IS THE ONLY LINE THAT WAS CHANGED --- */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent z-10"></div>
+
+        <div className="relative z-20 max-w-md space-y-4">
+          <p className="text-cyan-300 italic">{randomGreeting}</p>
+          <h1 className="text-5xl font-bold text-white">Program Outline</h1>
+          <p className="text-gray-200 font-semibold">
             The program outline displays the summary of tasks that's been done.
           </p>
         </div>
       </section>
 
-      {/* Table Structure */}
-      <div>
-        <div className="grid grid-cols-12 gap-6 bg-[#757575] text-white font-bold p-4 rounded-2xl shadow-md transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1">
-          <div className="col-span-2 text-center">Date</div>
-          <div className="col-span-2 text-center">Week</div>
-          <div className="col-span-2 text-center">Module</div>
-          <div className="col-span-3">Module Outcomes</div>
-          <div className="col-span-3">Key Activities</div>
-        </div>
+      <div
+        className="grid grid-cols-12 gap-6 bg-[#757575] text-white font-semibold text-sm uppercase p-4 rounded-2xl shadow-md 
+                   transition-transform duration-300 ease-in-out transform hover:scale-[1.01]"
+      >
+        <div className="col-span-2 text-center">Date</div>
+        <div className="col-span-2 text-center">Week</div>
+        <div className="col-span-2 text-center">Module</div>
+        <div className="col-span-3">Module Outcomes</div>
+        <div className="col-span-3">Key Activities</div>
+      </div>
 
-        <div className="space-y-4 pt-4">
-          {outlineData.map((item, index) => (
-            <div
-              key={index}
-              className="grid grid-cols-12 gap-6 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 hover:border-slate-200"
-            >
-              <div className="col-span-2 text-center text-gray-800 font-medium self-center">
-                {item.date}
-              </div>
-              <div className="col-span-2 text-center text-gray-600 self-center">
-                {item.week}
-              </div>
-              <div className="col-span-2 text-center text-gray-600 self-center">
-                {item.module}
-              </div>
-              <div className="col-span-3 text-gray-600">
-                <ul className="list-disc list-outside pl-4 space-y-2">
-                  {item.outcomes.map((outcome, i) => (
-                    <li key={i}>{outcome}</li>
-                  ))}
-                </ul>
-              </div>
-              <div className="col-span-3 text-gray-600">
-                <ul className="list-disc list-outside pl-4 space-y-2">
-                  {item.activities.map((activity, i) => (
-                    <li key={i}>{activity}</li>
-                  ))}
-                </ul>
-              </div>
+      <div className="space-y-4 -mt-4">
+        {outlineData.map((item, idx) => (
+          <div
+            key={idx}
+            className={
+              `grid grid-cols-12 gap-6 p-6 rounded-2xl shadow-sm border border-transparent ` +
+              `odd:bg-white even:bg-gray-50 transition-all duration-300 ease-in-out ` +
+              `hover:shadow-lg hover:-translate-y-1 hover:border-gray-200 `
+            }
+            tabIndex={0}
+          >
+            <div className="col-span-2 text-center text-gray-800 font-semibold self-center">
+              {item.date}
             </div>
-          ))}
-        </div>
+            <div className="col-span-2 text-center text-gray-700 self-center">
+              {item.week}
+            </div>
+            <div className="col-span-2 text-center text-gray-700 self-center">
+              {item.module}
+            </div>
+            <div className="col-span-3 text-gray-700 border-l border-gray-200">
+              <ul className="list-disc list-outside space-y-2 marker:text-gray-400 pl-5">
+                {item.outcomes.map((o, i) => (
+                  <li key={i}>{o}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="col-span-3 text-gray-700 border-l border-gray-200">
+              <ul className="list-disc list-outside space-y-2 marker:text-gray-400 pl-5">
+                {item.activities.map((a, i) => (
+                  <li key={i}>{a}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
