@@ -77,9 +77,31 @@ const deleteCourse = async (req, res) => {
   res.status(200).json({ id: req.params.id, message: 'Course removed' });
 };
 
+// @desc    Get a single course by ID
+// @route   GET /api/courses/:id
+// @access  Private
+const getCourseById = async (req, res) => {
+  const course = await Course.findById(req.params.id);
+
+  if (!course) {
+    res.status(404);
+    throw new Error('Course not found');
+  }
+
+  // Security check: Make sure the logged-in user is authorized to see this course
+  if (course.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error('User not authorized');
+  }
+
+  res.status(200).json(course);
+};
+
+
 module.exports = {
   getCourses,
   setCourse,
   updateCourse,
-  deleteCourse,  
+  deleteCourse,
+  getCourseById,  
 };

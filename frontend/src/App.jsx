@@ -11,7 +11,6 @@ import Dashboard from "./pages/Dashboard";
 import CoursesLayout from "./pages/CoursesLayout";
 import MyLibrary from "./pages/MyLibrary";
 import Modules from "./pages/Modules";
-import FundamentalsOfCyber from "./pages/FundamentalsOfCyber";
 import FOCModule1Lesson1 from "./pages/lessons/FOCModule1Lesson1";
 import FOCModule1Lesson2 from "./pages/lessons/FOCModule1Lesson2";
 import FOCModule2Lesson1 from "./pages/lessons/FOCModule2Lesson1";
@@ -74,7 +73,6 @@ function App() {
             <Route path=":courseId/requirements" element={<CompletionRequirements />} />
             
             {/* These highly specific routes should also be dynamic */}
-            <Route path=":courseId/modules/fundamentals" element={<FundamentalsOfCyber />} />
             <Route path=":courseId/modules/fundamentals/lesson1" element={<FOCModule1Lesson1 />} />
             <Route path=":courseId/modules/fundamentals/lesson2" element={<FOCModule1Lesson2 />} />
             <Route path=":courseId/modules/ipdnsports/lesson1" element={<FOCModule2Lesson1 />} />
