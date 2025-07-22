@@ -1,59 +1,49 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom'; // <-- 1. Import useParams
-import './module.css';
+import { Link } from 'react-router-dom';
 
 const FundamentalsOfCyber = () => {
-  // --- 2. Get the courseId from the URL ---
-  const { courseId } = useParams();
-
   const [activeModules, setActiveModules] = useState([]);
 
-  // --- 3. Update the modules array to use the dynamic courseId ---
-  // The structure is the same, but the 'link' properties are now dynamic.
   const modules = [
     {
       title: 'Module 1: Introduction to Cybersecurity',
       lessons: [
-        { title: 'Lesson 1: What is Cybersecurity?', link: `/courses/${courseId}/modules/fundamentals/lesson1` },
-        { title: 'Lesson 2: Why It Matters', link: `/courses/${courseId}/modules/fundamentals/lesson2` },
+        { title: 'Lesson 1: What is Cybersecurity?', link: '/courses/modules/fundamentals/lesson1' },
+        { title: 'Lesson 2: Why It Matters', link: '/courses/modules/fundamentals/lesson2' },
       ],
     },
     {
       title: 'Module 2: Understanding IP Address, DNS, and Ports',
       lessons: [
-        // These links are still placeholders, but if they were real, they'd follow the same pattern.
-        { title: 'Lesson 1: What is an IP Address?', link: '#' },
-        { title: 'Lesson 2: DNS Basics', link: '#' },
-        { title: 'Lesson 3: What Are Network Ports?', link: '#' },
+        { title: 'Lesson 1: What is an IP Address?', link: '/courses/modules/ipdnsports/lesson1' },
+        { title: 'Lesson 2: DNS Basics', link: '/courses/modules/ipdnsports/lesson2' },
+        { title: 'Lesson 3: What Are Network Ports?', link: '/courses/modules/ipdnsports/lesson3' },
       ],
     },
     {
       title: 'Module 3: Network Security Basics',
       lessons: [
-        { title: 'Lesson 1: Firewalls and Antivirus', link: '#' },
-        { title: 'Lesson 2: VPN and Secure Connections', link: '#' },
+        { title: 'Lesson 1: Firewalls and Antivirus', link: '/courses/modules/networksecurity/lesson1' },
+        { title: 'Lesson 2: VPN and Secure Connections', link: '/courses/modules/networksecurity/lesson2' },
       ],
     },
     {
       title: 'Module 4: Cybersecurity Best Practices',
       lessons: [
-        { title: 'Lesson 1: Staying Safe Online', link: '#' },
+        { title: 'Lesson 1: Staying Safe Online', link: '/courses/modules/bestpractices/lesson1' },
       ],
     },
   ];
 
-  // The rest of your component's logic and state management remains exactly the same.
   useEffect(() => {
-    setActiveModules(modules.map((_, i) => i)); 
+    setActiveModules(modules.map((_, i) => i));
   }, []);
 
   const isExpanded = (index) => activeModules.includes(index);
 
   const toggleModule = (index) => {
     setActiveModules((prev) =>
-      isExpanded(index)
-        ? prev.filter((i) => i !== index)
-        : [...prev, index]
+      isExpanded(index) ? prev.filter((i) => i !== index) : [...prev, index]
     );
   };
 
@@ -65,28 +55,48 @@ const FundamentalsOfCyber = () => {
     }
   };
 
-  // Your JSX also remains the same. It will automatically use the updated 'modules' array.
   return (
-    <div className="modules-page">
-      <h3>CODE 010</h3>
-      <h1><b>Fundamentals of Cybersecurity</b></h1>
-
-      <button className="expand-collapse-btn" onClick={toggleAllModules}>
-        {activeModules.length === modules.length ? 'Collapse All' : 'Expand All'}
-      </button>
+    <div className="max-w-4xl mx-auto px-4 py-8">
+      <h3 className="text-xl font-medium" style={{ color: '#051C43' }}>CODE 010</h3>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-bold" style={{ color: '#051C43' }}>
+          Fundamentals of Cybersecurity
+        </h1>
+        <button
+          onClick={toggleAllModules}
+          className="px-4 py-2 text-white rounded shadow transition hover:brightness-110"
+          style={{ backgroundColor: '#FBBC04' }}
+        >
+          {activeModules.length === modules.length ? 'Collapse All' : 'Expand All'}
+        </button>
+      </div>
 
       {modules.map((module, index) => (
-        <div key={index} className={`module ${isExpanded(index) ? 'active' : ''}`}>
-          <div className="module-header" onClick={() => toggleModule(index)}>
-            {module.title}
+        <div key={index} className="mb-4 border rounded-lg overflow-hidden shadow-sm">
+          <div
+            className="px-4 py-3 cursor-pointer flex justify-between items-center"
+            style={{ backgroundColor: '#680911', color: 'white' }}
+            onClick={() => toggleModule(index)}
+          >
+            <span className="font-semibold">{module.title}</span>
+            <span>{isExpanded(index) ? '▾' : '▸'}</span>
           </div>
-          <div className="lessons">
-            {module.lessons.map((lesson, idx) => (
-              <div key={idx} className="lesson">
-                <Link to={lesson.link}>{lesson.title}</Link>
-              </div>
-            ))}
-          </div>
+
+          {isExpanded(index) && (
+            <div className="bg-white divide-y divide-gray-200">
+              {module.lessons.map((lesson, idx) => (
+                <div key={idx} className="px-4 py-3 hover:bg-gray-100 transition">
+                  <Link
+                    to={lesson.link}
+                    className="font-medium"
+                    style={{ color: '#051C43' }}
+                  >
+                    {lesson.title}
+                  </Link>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       ))}
     </div>
