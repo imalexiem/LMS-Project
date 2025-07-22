@@ -12,18 +12,27 @@ import welcomeVideo from "../assets/WelcometoALPS.mp4";
 
 const pageData = {
   welcome: {
-    title: "Fundamentals of Cybersecurity",
-    text: "In an increasingly connected world, understanding cybersecurity is essential for everyone. This foundational course is designed to demystify the world of digital defense, providing you with the core knowledge to identify cyber threats, protect personal and organizational data, and understand the principles of online security. From malware and phishing to network security and cryptography, you will gain a clear insight into the challenges and solutions that define the digital age, building a crucial skill set for any modern career path.",
+    title: "Leadership Training",
+    text: "The leadership training course is important because organizations take on the personality of their leaders. Leadership development can optimize productivity, shape a positive culture and promote teamwork. Leaders must lead individuals and teams using an appropriate leadership style to achieve this goal. Leadership is tough. It does not matter how effortless some leaders appear to manage. The track of a leader is one fraught with constant challenges and surprises. However, a leader does not face the challenges alone. By definition, a leader has a team working to meet each challenge and achieve each goal.",
   },
   overview: {
     title: "OVERVIEW",
-    text: "TThis course offers a comprehensive overview of the cybersecurity landscape, covering a wide range of critical topics. We will explore the core pillars of security: confidentiality, integrity, and availability. You'll learn about common attack vectors, including social engineering, and the defensive measures used to counter them, such as firewalls, encryption, and access control. Our curriculum is designed to provide not just theoretical knowledge but also a practical understanding of risk management and how to implement a security-first mindset, empowering you to make informed decisions and protect digital assets effectively.",
+    text: "The leader’s job is not to solve every problem alone but to inspire their teams to solve the challenges. Leaders recognize that they do not have all the answers and constantly reeducate themselves on their businesses. They are sharpening their leadership skills. Beyond personal qualities such as vision and positive thought, a leader must also take a careful step to communicate with their staff in the best way possible. Our Leadership training course covers a variety of topics — such as leading solid teams and ethical leadership — that not only strengthen leaders’ confidence and capability but equip them to build a culture of engagement where team members are confident with their abilities and enthusiastic about contributing.",
     imageSrc:
       "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop",
   },
+  // The modules section is no longer used.
+  // modules: { ... },
 };
 
 const ProgramIntroduction = () => {
+  // sliderRef and settings are no longer needed.
+  // const sliderRef = useRef(null);
+  // const settings = { ... };
+
+  // useEffect for slider is no longer needed.
+  // useEffect(() => { ... });
+
   return (
     <div className="space-y-24 w-full font-sans mb-15">
       {/* Welcome Section */}
@@ -64,6 +73,8 @@ const ProgramIntroduction = () => {
           />
         </div>
       </section>
+
+      {/* --- Tilted Modules Carousel Section REMOVED --- */}
     </div>
   );
 };

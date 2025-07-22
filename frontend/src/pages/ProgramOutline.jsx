@@ -61,10 +61,7 @@ const outlineData = [
       "Apply learned concepts to a real-world leadership problem.",
       "Develop a comprehensive project plan.",
     ],
-    activities: [
-      "Project Brainstorming Session",
-      "Team Formation and Role Assignment",
-    ],
+    activities: ["Project Brainstorming Session", "Team Formation and Role"],
   },
   {
     date: "January 24, 2025",

@@ -3,7 +3,7 @@ import React from "react";
 const pageData = {
   welcome: {
     title: "New Course Title",
-    text: "Content for this section is coming soon. Please check back later for updates on this exciting new course offering.",
+    text: "Content for this section is coming soon, Please check back later for updates on this exciting new course offering.",
   },
   overview: {
     title: "OVERVIEW",

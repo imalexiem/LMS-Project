@@ -61,6 +61,7 @@ const ProgramOutline2 = () => {
             </div>
           ))
         ) : (
+          // This message will be shown since outlineData is empty
           <div className="text-center p-10 bg-white rounded-2xl shadow-sm">
             <p className="text-gray-500">
               No outline details are available for this course yet. Please check
