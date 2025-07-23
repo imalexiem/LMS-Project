@@ -3,12 +3,18 @@ const mongoose = require('mongoose');
 const lessonSchema = mongoose.Schema({
   title: { type: String, required: true },
   linkSlug: { type: String, required: true },
-  completed: { type: Boolean, default: false }, // <-- Add completed status to lessons
+  completed: { type: Boolean, default: false },
 });
 
 const moduleSchema = mongoose.Schema({
   title: { type: String, required: true },
   lessons: [lessonSchema],
+  progress: { 
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 100
+  },
 });
 
 const courseSchema = mongoose.Schema(

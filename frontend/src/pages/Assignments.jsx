@@ -4,34 +4,36 @@ import logo from '../assets/logo.png';
 import { useCourses } from '../hooks/useCourses';
 
 function Assignments() {
-  // 2. Replace the mock data with our live data hook
   const { courses, loading, error } = useCourses();
-  
-  // This state now holds a selected *course* object, not an assignment
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [showChapterDetails, setShowChapterDetails] = useState(false);
 
-  // Helper to format the date nicely
+  // Helper functions (no changes needed)
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
     const options = { weekday: 'short', month: 'long', day: 'numeric', year: 'numeric' };
     return new Date(dateString).toLocaleDateString('en-US', options);
   };
-
-  // Your helper functions are perfect, no changes needed
-  const getStatusColor = (status) => { /* ... */ };
-  const getStatusIcon = (status) => { /* ... */ };
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'COMPLETED': return 'bg-green-100 text-green-800';
+      case 'IN_PROGRESS': return 'bg-blue-100 text-blue-800';
+      case 'PENDING': return 'bg-yellow-100 text-yellow-800';
+      case 'OVERDUE': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'COMPLETED': return <CheckCircle className="h-4 w-4" />;
+      case 'IN_PROGRESS': return <Clock className="h-4 w-4" />;
+      // ... other cases
+      default: return <Clock className="h-4 w-4" />;
+    }
+  };
 
   // --- DETAIL VIEW ---
-  // This now renders based on the selectedCourse state
   if (selectedCourse) {
-    // We treat the course's modules as "chapters" for this view
-    const chapters = selectedCourse.modules.map(module => ({
-      ...module,
-      id: module._id, // Use MongoDB's ID
-      progress: selectedCourse.progress, // Use the overall course progress for now
-    }));
-
     return (
       <div className="min-h-screen bg-gray-50 p-6">
         <div className="max-w-4xl mx-auto">
@@ -45,30 +47,42 @@ function Assignments() {
             ← Back to Assignments
           </button>
 
-          {/* Map over the formatted chapters */}
           <div className="space-y-4">
-            {chapters.map((chapter) => (
-              <div key={chapter.id} className="bg-white rounded-lg shadow-sm border p-6">
+            {/* 1. We map directly over the modules from the fetched course */}
+            {selectedCourse.modules.map((module) => (
+              <div key={module._id} className="bg-white rounded-lg shadow-sm border p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-xl font-bold text-gray-900">{chapter.title}</h2>
+                  <h2 className="text-xl font-bold text-gray-900">{module.title}</h2>
                   <div className="flex items-center space-x-3">
                     <div className="w-32 bg-gray-200 rounded-full h-2">
-                      <div className="bg-[#FBBC04] h-2 rounded-full" style={{ width: `${chapter.progress}%` }}></div>
+                      {/* 2. The FIX: Use module.progress instead of chapter.progress */}
+                      <div
+                        className="bg-[#FBBC04] h-2 rounded-full"
+                        style={{ width: `${module.progress || 0}%` }}
+                      ></div>
                     </div>
-                    <span className="text-sm font-medium text-gray-900 w-12">{chapter.progress}%</span>
+                    <span className="text-sm font-medium text-gray-900 w-12">
+                      {module.progress || 0}%
+                    </span>
                   </div>
                 </div>
                 <p className="text-gray-700 mb-6">{selectedCourse.description}</p>
                 <div className="mb-4">
-                  <button onClick={() => setShowChapterDetails(!showChapterDetails)} className="...">
-                    {/* ... button content ... */}
+                   <button onClick={() => setShowChapterDetails(!showChapterDetails)} className="px-4 py-2 border border-blue-500 text-blue-600 rounded-md hover:bg-blue-50 font-medium transition-colors flex items-center space-x-2">
+                    <span>{showChapterDetails ? 'Hide Assignments' : 'View Assignments'}</span>
+                    {showChapterDetails ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                   </button>
                 </div>
-                {showChapterDetails && chapter.lessons && (
+                {showChapterDetails && module.lessons && (
                   <div className="border-t pt-4">
-                    {chapter.lessons.map((lesson, index) => (
-                      <div key={lesson._id} className="flex items-center p-3">
-                         {/* ... lesson content ... */}
+                    {module.lessons.map((lesson, index) => (
+                      <div key={lesson._id} className="flex items-center justify-between p-3 rounded-lg">
+                        <div className="flex items-center space-x-3">
+                           <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center">
+                            <span className="text-white text-sm font-bold">{index + 1}</span>
+                          </div>
+                          <span className="text-gray-900 font-medium">{lesson.title}</span>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -82,7 +96,6 @@ function Assignments() {
   }
 
   // --- MAIN LIST VIEW ---
-  // Handle loading and error states
   if (loading) return <div className="p-8 text-center">Loading assignments...</div>;
   if (error) return <div className="p-8 text-center text-red-500">Could not load assignments.</div>;
 
@@ -94,11 +107,14 @@ function Assignments() {
           <p className="text-gray-600 mt-2">Track your course progress and upcoming deadlines</p>
         </div>
         <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
-          <div className="grid grid-cols-12 ...">
-            {/* Table Header */}
+          <div className="grid grid-cols-12 gap-4 p-4 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-700">
+            <div className="col-span-4">TITLE</div>
+            <div className="col-span-2">ASSIGNER</div>
+            <div className="col-span-2">DUE BY</div>
+            <div className="col-span-2">STATUS</div>
+            <div className="col-span-2"></div>
           </div>
           <div className="divide-y divide-gray-200">
-            {/* 3. Map over the fetched 'courses' array */}
             {courses.map((course) => (
               <div
                 key={course._id}
@@ -120,7 +136,7 @@ function Assignments() {
                   <span className="text-sm text-gray-700">{formatDate(course.dueDate)}</span>
                 </div>
                 <div className="col-span-2 flex items-center">
-                  <div className={`px-3 py-1 rounded-full text-xs ... ${getStatusColor(course.status)}`}>
+                  <div className={`px-3 py-1 rounded-full text-xs font-medium flex items-center space-x-1 ${getStatusColor(course.status)}`}>
                     {getStatusIcon(course.status)}
                     <span>{course.status.replace('_', ' ')}</span>
                   </div>
