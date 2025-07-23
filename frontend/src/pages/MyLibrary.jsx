@@ -24,14 +24,16 @@ function MyLibrary() {
       <div className="space-y-4">
         {courses.length > 0 ? (
           courses.map(course => (
-            // Use a button for the click action, as Link can be tricky with complex children
-            <button
+            <div
               key={course._id}
               onClick={() => handleCourseClick(course._id)}
-              className="w-full text-left block transition transform hover:-translate-y-1 focus:outline-none"
+              className="w-full text-left block cursor-pointer transition transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg"
+              role="button" // Improves accessibility
+              tabIndex="0" // Makes the div focusable
+              onKeyDown={(e) => { if (e.key === 'Enter') handleCourseClick(course._id) }} // Allows activation with Enter key
             >
               <LibraryCourseItem course={course} />
-            </button>
+            </div>
           ))
         ) : (
           <p>You are not enrolled in any courses yet.</p>

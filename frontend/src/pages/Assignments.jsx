@@ -6,7 +6,20 @@ import { useCourses } from '../hooks/useCourses';
 function Assignments() {
   const { courses, loading, error } = useCourses();
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const [showChapterDetails, setShowChapterDetails] = useState(false);
+  const [openModuleIds, setOpenModuleIds] = useState([]);
+
+  const toggleModuleDetails = (moduleId) => {
+    setOpenModuleIds(prevOpenIds => {
+      // If the ID is already in the array, remove it (to close)
+      if (prevOpenIds.includes(moduleId)) {
+        return prevOpenIds.filter(id => id !== moduleId);
+      }
+      // Otherwise, add it to the array (to open)
+      else {
+        return [...prevOpenIds, moduleId];
+      }
+    });
+  };
 
   // Helper functions (no changes needed)
   const formatDate = (dateString) => {
@@ -40,7 +53,7 @@ function Assignments() {
           <button
             onClick={() => {
               setSelectedCourse(null);
-              setShowChapterDetails(false);
+              setOpenModuleIds([]);
             }}
             className="flex items-center text-blue-600 hover:text-blue-950 mb-6 text-sm font-medium"
           >
@@ -68,12 +81,12 @@ function Assignments() {
                 </div>
                 <p className="text-gray-700 mb-6">{selectedCourse.description}</p>
                 <div className="mb-4">
-                   <button onClick={() => setShowChapterDetails(!showChapterDetails)} className="px-4 py-2 border border-blue-500 text-blue-600 rounded-md hover:bg-blue-50 font-medium transition-colors flex items-center space-x-2">
-                    <span>{showChapterDetails ? 'Hide Assignments' : 'View Assignments'}</span>
-                    {showChapterDetails ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                   <button onClick={() => toggleModuleDetails(module._id)} className="px-4 py-2 border border-blue-500 text-blue-600 rounded-md hover:bg-blue-50 font-medium transition-colors flex items-center space-x-2">
+                    <span>{openModuleIds.includes(module._id) ? 'Hide Assignments' : 'View Assignments'}</span>
+                    {openModuleIds.includes(module._id) ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                   </button>
                 </div>
-                {showChapterDetails && module.lessons && (
+                {openModuleIds.includes(module._id) && module.lessons && (
                   <div className="border-t pt-4">
                     {module.lessons.map((lesson, index) => (
                       <div key={lesson._id} className="flex items-center justify-between p-3 rounded-lg">

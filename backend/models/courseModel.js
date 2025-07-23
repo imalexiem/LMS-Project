@@ -17,6 +17,14 @@ const moduleSchema = mongoose.Schema({
   },
 });
 
+const introductionSchema = mongoose.Schema({
+  welcomeTitle: { type: String, required: true },
+  welcomeText: { type: String, required: true },
+  overviewTitle: { type: String, required: true },
+  overviewText: { type: String, required: true },
+  overviewImageSrc: { type: String, required: true },
+});
+
 const courseSchema = mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
@@ -35,6 +43,7 @@ const courseSchema = mongoose.Schema(
       default: 'PENDING',
     },
     
+    introduction: introductionSchema,
   },
   { timestamps: true }
 );
