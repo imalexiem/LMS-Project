@@ -1,110 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
-const outlineData = [
-  {
-    date: "December 20, 2024",
-    week: "Orientation Week",
-    module: "Programme Orientation",
-    outcomes: [
-      "Discuss the use of specific emergent technology for improving business performance.",
-      "Identify how new technologies can disrupt existing industries.",
-    ],
-    activities: [
-      "Programme Introduction",
-      "Faculty Introduction & Meet-and-Greet",
-      "Learning Platform Overview",
-    ],
-  },
-  {
-    date: "December 27, 2024",
-    week: "Week 1",
-    module: "The Foundation of Leadership",
-    outcomes: [
-      "Define the core principles of effective leadership.",
-      "Differentiate between management and leadership.",
-      "Develop a strategic mindset for long-term planning.",
-      "Utilize frameworks like SWOT for strategic analysis.",
-    ],
-    activities: [
-      "Interactive Lecture: What is a Leader?",
-      "Case Study Analysis: Great Leaders in History",
-    ],
-  },
-  {
-    date: "January 3, 2025",
-    week: "Week 2",
-    module: "Effective Communication",
-    outcomes: [
-      "Master active listening techniques.",
-      "Learn to provide constructive feedback.",
-    ],
-    activities: [
-      "Role-playing: Difficult Conversations",
-      "Workshop: Crafting a Compelling Message",
-    ],
-  },
-  {
-    date: "January 10, 2025",
-    week: "Week 3",
-    module: "Strategic Thinking",
-    outcomes: [
-      "Develop a strategic mindset for long-term planning.",
-      "Utilize frameworks like SWOT for strategic analysis.",
-    ],
-    activities: ["SWOT Analysis Workshop", "Scenario Planning Exercise"],
-  },
-  {
-    date: "January 17, 2025",
-    week: "Week 4",
-    module: "Final Project Kick-off",
-    outcomes: [
-      "Apply learned concepts to a real-world leadership problem.",
-      "Develop a comprehensive project plan.",
-    ],
-    activities: ["Project Brainstorming Session", "Team Formation and Role"],
-  },
-  {
-    date: "January 24, 2025",
-    week: "Week 5",
-    module: "Conflict Resolution",
-    outcomes: [
-      "Identify sources of conflict in a team environment.",
-      "Apply negotiation and mediation techniques.",
-    ],
-    activities: [
-      "Simulation: Resolving Team Disputes",
-      "Lecture: The Thomas-Kilmann Conflict Mode Instrument",
-    ],
-  },
-  {
-    date: "January 31, 2025",
-    week: "Week 6",
-    module: "Leading Change",
-    outcomes: [
-      "Understand the psychological impact of organizational change.",
-      "Develop strategies to lead a team through transition.",
-    ],
-    activities: [
-      "Case Study: A Major Corporate Restructuring",
-      "Guest Speaker: A Leader in Change Management",
-    ],
-  },
-  {
-    date: "February 7, 2025",
-    week: "Week 7",
-    module: "Project Presentations",
-    outcomes: [
-      "Present project findings clearly and persuasively.",
-      "Demonstrate leadership through project execution.",
-    ],
-    activities: [
-      "Final Project Presentations to Panel",
-      "Peer Feedback Session",
-      "Course Wrap-up and Certificate Distribution",
-    ],
-  },
-];
-
+// The random greetings can stay as they are not dependent on course data
 const greetings = [
   "Ready to dive in? 🚀",
   "Let's get started! 🎯",
@@ -114,8 +13,49 @@ const greetings = [
 const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
 
 const ProgramOutline = () => {
+  // --- 1. SET UP DYNAMIC DATA FETCHING ---
+  const { courseId } = useParams();
+  const { token } = useAuth();
+  const [course, setCourse] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (courseId && token) {
+      const fetchCourseOutline = async () => {
+        setLoading(true);
+        const config = { headers: { Authorization: `Bearer ${token}` } };
+        try {
+          const response = await axios.get(`/api/courses/${courseId}`, config);
+          setCourse(response.data);
+        } catch (err) {
+          setError("Could not load the program outline.");
+          console.error(err);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchCourseOutline();
+    }
+  }, [courseId, token]);
+
+  // --- 2. HANDLE LOADING AND ERROR STATES ---
+  if (loading) {
+    return <div className="p-8 text-center">Loading Outline...</div>;
+  }
+
+  if (error) {
+    return <div className="p-8 text-center text-red-500">{error}</div>;
+  }
+  
+  if (!course || !course.programOutline) {
+    return <div className="p-8 text-center">Program outline not available for this course.</div>;
+  }
+
+  // --- 3. RENDER THE ORIGINAL JSX WITH DYNAMIC DATA ---
   return (
     <div className="w-full space-y-8 font-sans">
+      {/* This section is completely unchanged, all classNames are preserved */}
       <section
         className="relative rounded-2xl p-8 flex items-center bg-[#757575] shadow-lg overflow-hidden min-h-[224px] 
                    transition-transform duration-300 ease-in-out transform hover:scale-[1.02]"
@@ -128,10 +68,7 @@ const ProgramOutline = () => {
           <div className="absolute top-10 left-40 w-24 h-24 bg-cyan-400 rounded-full filter blur-sm opacity-60 animate-bounce [animation-delay:-1s]"></div>
           <div className="absolute bottom-10 left-10 w-28 h-28 bg-pink-400 rounded-full filter blur-md opacity-50 animate-pulse [animation-delay:-3s]"></div>
         </div>
-
-        {/* --- THIS IS THE ONLY LINE THAT WAS CHANGED --- */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent z-10"></div>
-
         <div className="relative z-20 max-w-md space-y-4">
           <p className="text-cyan-300 italic">{randomGreeting}</p>
           <h1 className="text-5xl font-bold text-white">Program Outline</h1>
@@ -141,6 +78,7 @@ const ProgramOutline = () => {
         </div>
       </section>
 
+      {/* This section is completely unchanged, all classNames are preserved */}
       <div
         className="grid grid-cols-12 gap-6 bg-[#757575] text-white font-semibold text-sm uppercase p-4 rounded-2xl shadow-md 
                    transition-transform duration-300 ease-in-out transform hover:scale-[1.01]"
@@ -153,7 +91,8 @@ const ProgramOutline = () => {
       </div>
 
       <div className="space-y-4 -mt-4">
-        {outlineData.map((item, idx) => (
+        {/* The ONLY change is swapping `outlineData` for `course.programOutline` */}
+        {course.programOutline.map((item, idx) => (
           <div
             key={idx}
             className={

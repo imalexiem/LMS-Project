@@ -25,6 +25,14 @@ const introductionSchema = mongoose.Schema({
   overviewImageSrc: { type: String, required: true },
 });
 
+const outlineItemSchema = mongoose.Schema({
+  date: { type: String, required: true },
+  week: { type: String, required: true },
+  module: { type: String, required: true },
+  outcomes: [{ type: String }], // An array of strings
+  activities: [{ type: String }], // An array of strings
+});
+
 const courseSchema = mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
@@ -44,6 +52,7 @@ const courseSchema = mongoose.Schema(
     },
     
     introduction: introductionSchema,
+    programOutline: [outlineItemSchema],
   },
   { timestamps: true }
 );
