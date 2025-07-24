@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
 import { CheckCircle, Calendar, BookOpen } from 'lucide-react';
 
+// The TableRow component is perfect as is. No changes needed here.
 const TableRow = ({ week, activity, type, weighting, dueDate }) => (
   <tr className="even:bg-gray-50 hover:bg-gray-100 transition-colors">
     <td className="p-4 text-center border-t border-gray-200">{week}</td>
@@ -20,47 +24,50 @@ const TableRow = ({ week, activity, type, weighting, dueDate }) => (
 );
 
 function CompletionRequirements() {
-  const tableData = [
-    {
-      week: "Week 1",
-      activity: "Introduction to Presentation Fundamentals",
-      type: "Required",
-      weighting: "20%",
-      dueDate: "Aug 1, 2025"
-    },
-    {
-      week: "Week 2", 
-      activity: "Audience Analysis and Content Development",
-      type: "Self-Study",
-      weighting: "15%",
-      dueDate: "Aug 8, 2025"
-    },
-    {
-      week: "Week 3",
-      activity: "Visual Design and Slide Creation",
-      type: "Required",
-      weighting: "25%",
-      dueDate: "Aug 15, 2025"
-    },
-    {
-      week: "Week 4",
-      activity: "Delivery Techniques and Body Language",
-      type: "Required",
-      weighting: "20%",
-      dueDate: "Aug 22, 2025"
-    },
-    {
-      week: "Week 5",
-      activity: "Final Presentation Assessment",
-      type: "Required",
-      weighting: "20%",
-      dueDate: "Aug 29, 2025"
-    }
-  ];
+  // --- 1. SET UP DYNAMIC DATA FETCHING ---
+  const { courseId } = useParams();
+  const { token } = useAuth();
+  const [course, setCourse] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    if (courseId && token) {
+      const fetchCourseData = async () => {
+        setLoading(true);
+        const config = { headers: { Authorization: `Bearer ${token}` } };
+        try {
+          const response = await axios.get(`/api/courses/${courseId}`, config);
+          console.log("Fetched Course Data:", response.data); // <-- DEBUGGING: Check what the API returns
+          setCourse(response.data);
+        } catch (err) {
+          setError("Could not load completion requirements.");
+          console.error(err);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchCourseData();
+    }
+  }, [courseId, token]);
+
+  // --- 2. HANDLE LOADING, ERROR, AND MISSING DATA STATES ---
+  if (loading) {
+    return <div className="p-8 text-center text-lg font-semibold">Loading Requirements...</div>;
+  }
+  if (error) {
+    return <div className="p-8 text-center text-lg text-red-500">{error}</div>;
+  }
+  // This is a crucial check. It prevents the component from rendering before the data is ready
+  // or if the data from the DB is missing the 'completionRequirements' field.
+  if (!course || !course.completionRequirements) {
+    return <div className="p-8 text-center text-lg">Completion requirements are not available for this course.</div>;
+  }
+
+  // --- 3. RENDER YOUR ORIGINAL JSX WITH DYNAMIC DATA ---
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header Section */}
+      {/* Header Section (Unchanged) */}
       <header className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex items-center justify-center mb-4">
@@ -86,20 +93,15 @@ function CompletionRequirements() {
               <h2 className="text-3xl font-bold text-gray-900">Activities</h2>
             </div>
             <div className="prose prose-lg text-gray-700 leading-relaxed">
-              <p className="mb-4">
-                This course is designed to provide comprehensive training in presentation skills through a series of structured activities and assessments. Each week focuses on different aspects of effective presentation delivery, from fundamental concepts to advanced techniques.
-              </p>
-              <p className="mb-4">
-                Students will engage in both theoretical learning and practical application, including video submissions, peer reviews, and live presentation sessions. The curriculum emphasizes hands-on practice to build confidence and competence in public speaking scenarios.
-              </p>
-              <p>
-                All activities are designed to progressively build your skills, starting with basic presentation concepts and advancing to sophisticated delivery techniques and audience engagement strategies.
-              </p>
+              {/* These paragraphs are now dynamic */}
+              <p className="mb-4">{course.completionRequirements.activityDescription1}</p>
+              <p className="mb-4">{course.completionRequirements.activityDescription2}</p>
+              <p>{course.completionRequirements.activityDescription3}</p>
             </div>
           </div>
         </section>
 
-        {/* Passing Criteria Section */}
+        {/* Passing Criteria Section (Unchanged) */}
         <section className="mb-8">
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
             <div className="flex items-center mb-6">
@@ -150,7 +152,8 @@ function CompletionRequirements() {
                   </tr>
                 </thead>
                 <tbody>
-                  {tableData.map((row, index) => (
+                  {/* The static `tableData` is replaced with the dynamic schedule from the fetched course */}
+                  {course.completionRequirements.schedule.map((row, index) => (
                     <TableRow key={index} {...row} />
                   ))}
                 </tbody>
@@ -159,7 +162,7 @@ function CompletionRequirements() {
           </div>
         </section>
 
-        {/* Additional Information */}
+        {/* Additional Information (Unchanged) */}
         <section className="mt-8">
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
             <div className="flex items-start">
