@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useScrollToTop } from '../../hooks/useScrollToTop';
 
 
 const FOCModule3Lesson2 = () => {
 const { courseId } = useParams();
+useScrollToTop(); // This handles all the scrolling logic
 
   return (
     <div className="px-6 md:px-12 py-8 bg-gray-100 min-h-screen">
@@ -85,12 +87,14 @@ const { courseId } = useParams();
           <Link
             to={`/courses/${courseId}/modules/networksecurity/lesson1`}
             className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-5 py-2 rounded shadow-md"
+            onClick={() => window.scrollTo(0, 0)}
           >
             Previous
           </Link>
           <Link
             to={`/courses/${courseId}/modules/bestpractices/lesson1`}
             className="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold px-5 py-2 rounded shadow-md"
+            onClick={() => window.scrollTo(0, 0)}
           >
             Next: Module 4
           </Link>

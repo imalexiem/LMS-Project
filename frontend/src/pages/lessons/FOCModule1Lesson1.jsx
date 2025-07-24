@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useScrollToTop } from '../../hooks/useScrollToTop';
 
 const FOCModule1Lesson1 = () => {
   const { courseId } = useParams(); // ← Get the dynamic course ID
+  useScrollToTop(); // This handles all the scrolling logic
 
   return (
     <div className="px-6 md:px-12 py-8 bg-gray-100 min-h-screen">
